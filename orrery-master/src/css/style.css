@@ -12,7 +12,7 @@
 #canvas-text {
     position: absolute;
     top: 5%; /* Center vertically */
-    left: 20%; /* Center horizontally */
+    left: 15%; /* Center horizontally */
     transform: translate(-50%, -50%); /* Adjust position to the center */
     color: white;
     font-size: 20px;
