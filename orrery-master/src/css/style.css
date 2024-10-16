@@ -6,10 +6,9 @@
     margin-right: auto;
     display: block;
     background-color: black;
-    border: 3px solid blue;
     position: relative;
-    width: 600px; /* Example width */
-    height: 400px; /* Example height */
+    width: 600px;
+    height: 400px;
 }
 
 /* Styling for the overlay text */
