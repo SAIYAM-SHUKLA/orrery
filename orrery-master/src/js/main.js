@@ -100,16 +100,17 @@ function showPlanetInfo(c, planet) {
 
     // Display basic information
     c.fillText(`Name: ${planet[0]}`, infoX + 10, infoY + 20);
-    c.fillText(`Size: ${planet[1]}`, infoX + 10, infoY + 40);
-    c.fillText(`Distance: ${planet[2]}`, infoX + 10, infoY + 60);
+    // c.fillText(`Size: ${planet[1]}`, infoX + 10, infoY + 40);
+   
     
     // Add scientifically accurate information
     if (planetInfo[planet[0].toLowerCase()]) {
         const info = planetInfo[planet[0].toLowerCase()];
-        c.fillText(`Mass: ${info.mass}`, infoX + 10, infoY + 80);
-        c.fillText(`Radius: ${info.radius}`, infoX + 10, infoY + 100);
-        c.fillText(`temp: ${info.temperature}`, infoX + 10, infoY + 120);
-        c.fillText(`composition: ${info.composition}`, infoX + 10, infoY + 140);
+        c.fillText(`Distance: ${info.distance}`, infoX + 10, infoY + 40);
+        c.fillText(`Mass: ${info.mass}`, infoX + 10, infoY + 60);
+        c.fillText(`Radius: ${info.radius}`, infoX + 10, infoY + 80);
+        c.fillText(`temp: ${info.temperature}`, infoX + 10, infoY + 100);
+        c.fillText(`composition: ${info.composition}`, infoX + 10, infoY + 120);
     }
 }
 
@@ -154,7 +155,7 @@ function drawPlanet(c, planet) {
         // Create a radial gradient for each planet
         const gradient = c.createRadialGradient(x, y, radius * 0.3, x, y, radius);
         gradient.addColorStop(0, color);
-        gradient.addColorStop(1, 'black');
+        gradient.addColorStop(1, '#1e2425');
 
         c.fillStyle = gradient;
     }
