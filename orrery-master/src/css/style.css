@@ -75,7 +75,7 @@ canvas {
     animation: twinkling 2s infinite ease-in-out;
 }
 
-body {
+/* body {
     margin: 0;
     padding: 0;
     display: flex;
@@ -84,7 +84,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: black;
     color: white;
-}
+} */
 
 /* Responsive font sizes */
 h3, #canvas-text {
