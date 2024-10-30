@@ -75,6 +75,10 @@ body {
 h3, #canvas-text {
     font-size: 1.2em;
 }
+.canvas-text2{
+    /* position: relative; */
+    left: 900px;
+ }
 
 @media (max-width: 768px) {
     h3, #canvas-text {
