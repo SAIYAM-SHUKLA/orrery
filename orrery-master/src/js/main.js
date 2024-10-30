@@ -93,7 +93,7 @@ function showPlanetInfo(c, planet) {
     const infoY = mousePosition.y + 10;
 
     c.fillStyle = "rgba(0, 0, 0, 0.8)";  // Info box background
-    c.fillRect(infoX, infoY, 200, 140);  // Draw info box
+    c.fillRect(infoX, infoY, 400, 140);  // Draw info box
 
     c.fillStyle = "white";
     c.font = '14pt Arial';

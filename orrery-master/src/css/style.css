@@ -24,6 +24,21 @@
     margin: 15px;
     pointer-events: none; /* Prevent interaction with text */
 }
+#canvas-text1 {
+    position: absolute;
+    top: 10%; /* Center vertically */
+    left: 12%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust position to the center */
+    color: lightsteelblue;
+    font-size: 10px;
+    font-family: monospace;
+    background-color: rgba(0, 0, 0, 0.5); /* Slight background transparency */
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 15px;
+    pointer-events: none; /* Prevent interaction with text */
+}
 
 
 
