@@ -138,8 +138,52 @@ function drawStars(c) {
 
 // Draw planet and its label
 function drawPlanet(c, planet) {
-    drawArc(c, planet[4], planet[5], planet[6], planet[7], planet[8], planet[9], planet[0], planet[10]);
+    const [name, size, , , x, y, radius, , , color] = planet;
+
+    // Log radius to check if it’s set properly for each planet
+    console.log(`Drawing ${name}: radius = ${radius}, x = ${x}, y = ${y}, color = ${color}`);
+
+    // Check if the planet is the Sun for unique rendering
+    if (name === "Sun") {
+        const sunGradient = c.createRadialGradient(x, y, radius * 0.5, x, y, radius * 2);
+        sunGradient.addColorStop(0, 'yellow');
+        sunGradient.addColorStop(1, 'rgba(255, 140, 0, 0.2)');
+
+        c.fillStyle = sunGradient;
+    } else {
+        // Create a radial gradient for each planet
+        const gradient = c.createRadialGradient(x, y, radius * 0.3, x, y, radius);
+        gradient.addColorStop(0, color);
+        gradient.addColorStop(1, 'black');
+
+        c.fillStyle = gradient;
+    }
+
+    // Draw the planet (or Sun) with its calculated or default gradient
+    c.beginPath();
+    c.arc(x, y, radius, 0, 2 * Math.PI);
+    c.fill();
+
+    // Display the name of each planet above it
+    c.font = '14px Arial';
+    c.fillStyle = 'white';
+    c.fillText(name, x, y - radius - 10);
+
+    if (name === "Saturn") {
+        const ringColors = ["rgba(245, 222, 179, 0.5)", "rgba(255, 215, 0, 0.3)", "rgba(255, 223, 186, 0.2)"];
+        const ringThickness = [radius * 1.8, radius * 2.1, radius * 2.4]; // Different sizes for each ring layer
+
+        ringColors.forEach((ringColor, index) => {
+            c.strokeStyle = ringColor;
+            c.lineWidth = 3;  // Adjust thickness for a refined look
+            c.beginPath();
+            // Create layered ellipses with slight opacity and different sizes
+            c.ellipse(x, y, ringThickness[index], radius * 0.6, 0, 0, 2 * Math.PI);
+            c.stroke();
+        });
+    }
 }
+
 
 // Draw circular orbit around the sun
 function drawOrbit(c, planet) {
@@ -153,6 +197,7 @@ function drawOrbit(c, planet) {
     }
 }
 
+
 // Function to draw an arc representing the planet's body
 function drawArc(c, x, y, r, sAngle, eAngle, colour, name, textColour) {
     c.fillStyle = colour;
@@ -165,29 +210,6 @@ function drawArc(c, x, y, r, sAngle, eAngle, colour, name, textColour) {
     c.fillText(name, x, y);
 }
 
-// Generate info table in HTML
-function infoTable() {
-    var info = document.getElementById('info-table');
-    info.innerHTML += `
-    <tr>
-        <th>Planet</th>
-        <th>Size</th>
-        <th>Distance from Sun</th>
-        <th>Time for orbit</th>
-        <th>Colour</th>
-    </tr>
-    `;
-    for (let p in planets) {
-        info.innerHTML += 
-        "<tr>"+
-           "<td>"+planets[p][0]+"</td>" +
-           "<td>"+planets[p][1]+"</td>" +
-           "<td>"+planets[p][2]+"</td>" +
-           "<td>"+planets[p][3]+"</td>" +
-           "<td>"+planets[p][9]+"</td>" + 
-        "</tr>";
-    }
-}
 //this is to check the commit
 const canvas = document.getElementById(properties.canvasName);
 
