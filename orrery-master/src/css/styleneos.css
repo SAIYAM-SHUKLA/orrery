@@ -1,0 +1,17 @@
+.neocan {
+    max-width: 100%;
+    height: auto;
+    background: radial-gradient(circle at center, #000428, #1e2425); /* Galaxy-like background */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: 'Merriweather', serif;
+}
+.cont{
+    display: flex;
+}

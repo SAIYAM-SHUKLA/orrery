@@ -11,7 +11,7 @@
 /* Styling for the overlay text */
 #canvas-text {
     position: absolute;
-    top: 5%; /* Center vertically */
+    top: 14%; /* Center vertically */
     left: 12%; /* Center horizontally */
     transform: translate(-50%, -50%); /* Adjust position to the center */
     color: lightsteelblue;
@@ -26,7 +26,7 @@
 }
 #canvas-text1 {
     position: absolute;
-    top: 10%; /* Center vertically */
+    top: 21%; /* Center vertically */
     left: 12%; /* Center horizontally */
     transform: translate(-50%, -50%); /* Adjust position to the center */
     color: lightsteelblue;
@@ -42,7 +42,7 @@
 
 
 
-/* Gradient and shadow for planets */
+
 canvas {
     max-width: 100%;
     height: auto;
@@ -55,64 +55,19 @@ canvas {
     box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.6); /* Subtle glow for planets */
 }
 
-/* Optional glow effect for the Sun */
-#sun {
-    box-shadow: 0 0 25px rgba(255, 215, 0, 0.9), 0 0 50px rgba(255, 215, 0, 0.7);
+
+
+
+
+
+
+ body {
+    font-family: 'Roboto', sans-serif;
 }
 
-/* Animated stars background */
-@keyframes twinkling {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 1; }
+h1, h2, h3 {
+    font-family: 'Merriweather', serif;
 }
 
-.star {
-    width: 2px;
-    height: 2px;
-    background: white;
-    border-radius: 50%;
-    position: absolute;
-    animation: twinkling 2s infinite ease-in-out;
-}
 
-/* body {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    background-color: black;
-    color: white;
-} */
 
-/* Responsive font sizes */
-h3, #canvas-text {
-    font-size: 1.2em;
-}
-.canvas-text2{
-    /* position: relative; */
-    left: 900px;
- }
-
-@media (max-width: 768px) {
-    h3, #canvas-text {
-        font-size: 1em;
-    }
-    
-    #info-table th, #info-table td {
-        padding: 3px;
-        font-size: 0.9em;
-    }
-}
-
-@media (max-width: 480px) {
-    h3, #canvas-text {
-        font-size: 0.9em;
-    }
-    
-    #info-table th, #info-table td {
-        padding: 2px;
-        font-size: 0.8em;
-    }
-}

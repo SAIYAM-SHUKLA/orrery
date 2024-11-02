@@ -15,8 +15,8 @@ function main() {
 
 function initCanvas() {
     const canvas = document.getElementById(properties.canvasName);
-    canvas.width = 1510;
-    canvas.height = 1510;
+    canvas.width = 1540;
+    canvas.height = 1540;
     var ctx = canvas.getContext(properties.canvasContext);
     return ctx;
 }

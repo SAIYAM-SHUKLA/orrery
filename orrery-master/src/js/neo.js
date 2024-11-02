@@ -31,8 +31,8 @@ function drawNEOs() {
     canvas.height = 750;
 
     // Fill canvas background with a deep space color
-    c.fillStyle = 'black';
-    c.fillRect(0, 0, canvas.width, canvas.height);
+    // c.fillStyle = '#1e2425';
+    // c.fillRect(0, 0, canvas.width, canvas.height);
 
     const earthX = canvas.width / 2;
     const earthY = canvas.height / 2;
@@ -181,8 +181,8 @@ function drawSatellites() {
     canvas.width = 750;
     canvas.height = 750;
 
-    c.fillStyle = 'black';
-    c.fillRect(0, 0, canvas.width, canvas.height);
+    // c.fillStyle = 'black';
+    // c.fillRect(0, 0, canvas.width, canvas.height);
 
     const earthX = canvas.width / 2;
     const earthY = canvas.height / 2;

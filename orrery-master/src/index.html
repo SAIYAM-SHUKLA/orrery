@@ -4,11 +4,31 @@
         <meta charset="utf-8"/>
         <title> Orrery </title>
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
     <body>
 
         <!-- <h1 id='title'>Welcome to the Orrery</h1> -->
-        <hr />
+        <!-- <hr /> -->
+        <nav class="navbar bg-secondary navbar-expand-lg ">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/orrery/orrery-master/src/index.html">Orrery</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/orrery/orrery-master/src/earth_neos.html">Earth-NEOS</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#About">About</a>
+                  </li>
+                  
+                </ul>
+              </div>
+            </div>
+          </nav>
         
       
         <canvas id="orrery"></canvas>
@@ -19,15 +39,38 @@
         <h3 id="canvas-text1">
             1 Astronomical unit(AU): 149,600,000 km or 92,960,000 miles
         </h3> 
+
+
+        <div id="About" class=" bg-secondary card">
+            <div class="card-header">
+                About Our Project
+            </div>
+            <div class="card-body text-light">
+                <h2>NASA Space App Challenge</h2>
+                <p>Welcome to our Orrery App! This project was developed as part of the NASA Space Apps Challenge by a passionate team dedicated to space exploration and technology.</p>
+                <h3>Meet the Team</h3>
+                <ul>
+                    <li>Aron Willy</li>
+                    <li>Saiyam Shukla</li>
+                    <li>Samarth Gunjal</li>
+                    <li>Youkta Thakur</li>
+                </ul>
+                <h3>Project Overview</h3>
+                <p>Our Orrery App is designed to visualize Near-Earth Objects (NEOs) and their proximity to our planet. This interactive application allows users to explore real-time data on NEOs, enhancing public awareness and understanding of objects that orbit close to Earth.</p>
+                <p>The app displays the NEOs in an engaging, easy-to-understand format, bringing the wonders of space closer to everyone. We hope this tool will inspire curiosity and encourage further exploration of our solar system.</p>
+            </div>
+          </div>
         
-        <hr />
+        <!-- <hr /> -->
         <article id="info">
             <!-- <h2>Info:</h2> -->
             <table id="info-table"></table>
         </article>
 
+
         <script type="text/javascript" src="./js/config.js"></script>
         <script type="text/javascript" src="./js/main.js"></script>
         <script type="text/javascript" src="./js/planet.js" onload="main();"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>
 </html>
