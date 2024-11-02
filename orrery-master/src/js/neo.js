@@ -30,73 +30,100 @@ function drawNEOs() {
     canvas.width = 750;
     canvas.height = 750;
 
+    // Fill canvas background with a deep space color
     c.fillStyle = 'black';
     c.fillRect(0, 0, canvas.width, canvas.height);
 
     const earthX = canvas.width / 2;
     const earthY = canvas.height / 2;
     const earthSize = 30;
+    const constantNEOSize = 5; // Uniform size for all NEOs
 
-    c.fillStyle = 'blue';
+    // Create a gradient for Earth to give it a spherical look
+    const earthGradient = c.createRadialGradient(earthX, earthY, earthSize * 0.2, earthX, earthY, earthSize);
+    earthGradient.addColorStop(0, '#0d47a1');  // Deep blue at the center
+    earthGradient.addColorStop(1, '#2196f3');  // Lighter blue at the edge
+
+    // Draw Earth with gradient and subtle shadow for depth
+    c.fillStyle = earthGradient;
     c.beginPath();
     c.arc(earthX, earthY, earthSize, 0, 2 * Math.PI);
     c.fill();
+
+    // Add Earth's label
     c.fillStyle = 'white';
     c.font = '14pt Arial';
     c.textAlign = 'center';
     c.textBaseline = 'middle';
     c.fillText("Earth", earthX, earthY);
 
-    // Mouse move event for tracking hover
-    canvas.addEventListener('mousemove', function(event) {
-        const rect = canvas.getBoundingClientRect();
-        mousePosition.x = event.clientX - rect.left;
-        mousePosition.y = event.clientY - rect.top;
-        hoveredNEO = null; // Reset hovered NEO
+    // Track which NEO is hovered
+    hoveredNEO = null;
 
-        // Check if hovering over any NEO
-        neos.forEach((neo, index) => {
-            const angle = (index / neos.length) * 2 * Math.PI;
-            const distance = (neo.distanceFromEarth / 0.1) * 50;
-            const x = earthX + (distance + earthSize) * Math.cos(angle);
-            const y = earthY + (distance + earthSize) * Math.sin(angle);
-            const size = neo.size * 8;
-
-            // Check if mouse is hovering over this NEO
-            const dx = mousePosition.x - x;
-            const dy = mousePosition.y - y;
-            const distanceToMouse = Math.sqrt(dx * dx + dy * dy);
-
-            if (distanceToMouse < size) {
-                hoveredNEO = neo; // Set hoveredNEO to the current NEO
-            }
-        });
-    });
-
-    // Draw the NEOs
+    // Draw each NEO
     neos.forEach((neo, index) => {
-        const angle = (index / neos.length) * 2 * Math.PI;
+        // Calculate the orbit radius based on the NEO's distance from Earth
         const distance = (neo.distanceFromEarth / 0.1) * 50;
+
+        // Draw orbit as a faint circle around Earth
+        c.strokeStyle = 'rgba(255, 255, 255, 0.2)'; // Light transparent color for orbit
+        c.lineWidth = 1;
+        c.beginPath();
+        c.arc(earthX, earthY, distance + earthSize, 0, 2 * Math.PI);
+        c.stroke();
+
+        // Calculate the angle with a slower speed for the revolution
+        const angle = ((index / neos.length) * 2 * Math.PI) + (Date.now() / 100000); // Slower revolution
         const x = earthX + (distance + earthSize) * Math.cos(angle);
         const y = earthY + (distance + earthSize) * Math.sin(angle);
-        const size = neo.size * 8;
 
+        const dx = mousePosition.x - x;
+        const dy = mousePosition.y - y;
+        const distanceToMouse = Math.sqrt(dx * dx + dy * dy);
+        if (distanceToMouse < constantNEOSize) {
+            hoveredNEO = neo;
+        }
+
+        // NEO gradient with glow effect
+        const neoGradient = c.createRadialGradient(x, y, 0, x, y, constantNEOSize * 2);
+        neoGradient.addColorStop(0, 'white');
+        neoGradient.addColorStop(1, 'rgba(255, 255, 255, 0.1)'); // Fades to transparent
+
+        // Draw NEO with gradient glow effect
+        c.fillStyle = neoGradient;
         c.beginPath();
-        c.arc(x, y, size, 0, 2 * Math.PI);
-        c.fillStyle = 'white';
+        c.arc(x, y, constantNEOSize, 0, 2 * Math.PI);
         c.fill();
+
+        // Draw NEO name in a smaller, slightly offset font
         c.fillStyle = 'yellow';
         c.font = '7pt Arial';
-        c.fillText(neo.name, x, y - size - 5);
+        c.fillText(neo.name, x, y - constantNEOSize - 5);
+
+        // Hover effect over NEO name
+        // const textWidth = c.measureText(neo.name).width;
+        // const textHeight = 10; // Approximate height of text in pixels
+        // const textX = x - textWidth / 2;
+        // const textY = y - constantNEOSize - 5 - textHeight;
+
+        // if (mousePosition.x > textX &&
+        //     mousePosition.x < textX + textWidth &&
+        //     mousePosition.y > textY &&
+        //     mousePosition.y < textY + textHeight) {
+        //     hoveredNEO = neo;
+        // }
     });
 
-    // Show info if hovering over a NEO
+    // Show hover info if hovering over a NEO name
     if (hoveredNEO) {
         showNEOInfo(c, hoveredNEO);
     }
 
-    requestAnimationFrame(drawNEOs); // Continue the drawing loop
+    // Continue animating by calling drawNEOs again
+    requestAnimationFrame(drawNEOs);
 }
+
+
 
 // Function to display NEO info when hovered
 function showNEOInfo(c, neo) {
