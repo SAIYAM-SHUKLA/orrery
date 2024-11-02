@@ -94,6 +94,8 @@ function drawNEOs() {
     if (hoveredNEO) {
         showNEOInfo(c, hoveredNEO);
     }
+
+    requestAnimationFrame(drawNEOs); // Continue the drawing loop
 }
 
 // Function to display NEO info when hovered
@@ -110,6 +112,12 @@ function showNEOInfo(c, neo) {
     c.fillText(`Size: ${neo.size} km`, infoX + 10, infoY + 40);
     c.fillText(`Distance: ${neo.distanceFromEarth} AU`, infoX + 10, infoY + 60);
 }
+
+document.getElementById('neoCanvas').addEventListener('mousemove', (event) => {
+    const rect = event.target.getBoundingClientRect();
+    mousePosition.x = event.clientX - rect.left;
+    mousePosition.y = event.clientY - rect.top;
+});
 
 // Fetch Satellite Data from SATCAT API
 function fetchSatellites() {
