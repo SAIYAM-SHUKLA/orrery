@@ -1,5 +1,6 @@
 let mousePosition = { x: 0, y: 0 }; // Store mouse position
 let hoveredNEO = null; // Track which NEO is being hovered over
+// let hoveredSatellite = null; // Track which satellite is being hovered over
 const apiKey = 'Cm6tszaVWxMCt8xEzk9fWbIY9AP9LB8PIkxE0mif'; // Replace with your NASA API key
 
 let neos = [];
@@ -162,10 +163,15 @@ function fetchSatellites() {
                     const catalogNumber = lines[i + 1].trim();
                     const orbitalData = lines[i + 2].trim();
                     
+                    // Random distance for each satellite between 100 and 300 (you can adjust the range)
+                    const randomDistance = Math.random() * 200 + 100;  // Random distance between 100 and 300
+                    
                     satellites.push({
                         name: name,
                         catalogNumber: catalogNumber,
-                        orbitalData: orbitalData
+                        orbitalData: orbitalData,
+                        distance: randomDistance, // Store the random distance
+                        angle: Math.random() * 2 * Math.PI  // Random initial angle
                     });
                 }
             }
@@ -175,48 +181,113 @@ function fetchSatellites() {
         .catch(error => console.error('Error fetching satellite data:', error));
 }
 
+// Function to draw satellites and make them revolve
 function drawSatellites() {
     const canvas = document.getElementById('neoCanvas2');
     const c = canvas.getContext('2d');
     canvas.width = 750;
     canvas.height = 750;
 
-    // c.fillStyle = 'black';
-    // c.fillRect(0, 0, canvas.width, canvas.height);
-
     const earthX = canvas.width / 2;
     const earthY = canvas.height / 2;
     const earthSize = 30;
 
     // Draw Earth
-    c.fillStyle = 'blue';
+    const earthGradient = c.createRadialGradient(earthX, earthY, earthSize * 0.2, earthX, earthY, earthSize);
+    earthGradient.addColorStop(0, '#0d47a1');  // Deep blue at the center
+    earthGradient.addColorStop(1, '#2196f3');  // Lighter blue at the edge
+
+    // Draw Earth with gradient and subtle shadow for depth
+    c.fillStyle = earthGradient;
     c.beginPath();
     c.arc(earthX, earthY, earthSize, 0, 2 * Math.PI);
     c.fill();
+
+    // Add Earth's label
     c.fillStyle = 'white';
     c.font = '14pt Arial';
     c.textAlign = 'center';
     c.textBaseline = 'middle';
     c.fillText("Earth", earthX, earthY);
 
-    // Draw each satellite around Earth based on their position
+    // Track which satellite is hovered
+    hoveredSatellite = null;
+
+    // Draw each satellite around Earth
     satellites.forEach((sat, index) => {
-        const angle = (index / satellites.length) * 2 * Math.PI;
-        const distance = 200; // Set a fixed distance for display purposes
-        const x = earthX + (distance + earthSize) * Math.cos(angle);
-        const y = earthY + (distance + earthSize) * Math.sin(angle);
+        // Update the angle of the satellite for animation
+        sat.angle += 0.0001;  // Slow down the revolution speed
+
+         // Draw the satellite's orbit
+        c.strokeStyle = 'rgba(255, 255, 255, 0.2)'; // Faint orbit lines
+        c.lineWidth = 1;
+        c.beginPath();
+        c.arc(earthX, earthY, sat.distance + earthSize, 0, 2 * Math.PI); // Orbit radius
+        c.stroke();
+
+        // Calculate the satellite's position based on the distance and angle
+        const x = earthX + (sat.distance + earthSize) * Math.cos(sat.angle);
+        const y = earthY + (sat.distance + earthSize) * Math.sin(sat.angle);
         const size = 10;
 
+        // Calculate the distance between the mouse and the satellite
+        const dx = mousePosition.x - x;
+        const dy = mousePosition.y - y;
+        const distanceToMouse = Math.sqrt(dx * dx + dy * dy);
+
+        // Check if the mouse is close to the satellite (hover effect)
+        if (distanceToMouse < size) {
+            hoveredSatellite = sat;
+        }
+
+        // Highlight the hovered satellite with a glowing effect
+        const glowRadius = hoveredSatellite === sat ? size * 2 : size;
+        const glowColor = hoveredSatellite === sat ? 'rgba(255, 255, 255, 0.5)' : 'rgba(255, 255, 255, 0.1)';
+
+        const satGradient = c.createRadialGradient(x, y, 0, x, y, glowRadius);
+        satGradient.addColorStop(0, 'white');
+        satGradient.addColorStop(1, glowColor);
+
+        c.fillStyle = satGradient;
         c.beginPath();
         c.arc(x, y, size, 0, 2 * Math.PI);
-        c.fillStyle = 'white';
         c.fill();
 
+        // Draw satellite name
         c.fillStyle = 'yellow';
         c.font = '7pt Arial';
         c.fillText(sat.name, x, y - size - 5);
     });
+
+    // If a satellite is hovered, show its info
+    if (hoveredSatellite) {
+        showSatelliteInfo(c, hoveredSatellite);
+    }
+
+    // Request the next animation frame to keep the satellites revolving
+    requestAnimationFrame(drawSatellites);
 }
+
+// Function to display satellite info when hovered
+function showSatelliteInfo(c, sat) {
+    const infoX = mousePosition.x - 50; // Position the tooltip near the mouse
+    const infoY = mousePosition.y + 20;
+
+    c.fillStyle = "rgba(0, 0, 0, 0.8)"; // Tooltip background
+    c.fillRect(infoX, infoY, 250, 90); // Info box size
+
+    c.fillStyle = "white";
+    c.font = '12pt Arial';
+    c.fillText(`Name: ${sat.name}`, infoX + 10, infoY + 20);
+    c.fillText(`Catalog #: ${sat.catalogNumber}`, infoX + 10, infoY + 40);
+    c.fillText(`Orbital Data: ${sat.orbitalData}`, infoX + 10, infoY + 60);
+}
+
+document.getElementById('neoCanvas2').addEventListener('mousemove', (event) => {
+    const rect = event.target.getBoundingClientRect();
+    mousePosition.x = event.clientX - rect.left;
+    mousePosition.y = event.clientY - rect.top;
+});
 
 // Fetch data when the window loads
 window.onload = function() {
